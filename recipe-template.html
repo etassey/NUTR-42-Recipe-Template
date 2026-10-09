@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>[Recipe Name] — Standardized Recipe</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  /* =========================================================
+     STANDARDIZED RECIPE TEMPLATE
+     - Edit the content inside <body> below.
+     - Add/remove ingredient rows, method steps, or checklist
+       items freely — layout and print pagination adjust
+       automatically to any length.
+     - To print or save as PDF: open this file in a browser
+       and use File > Print (or Ctrl/Cmd+P).
+     ========================================================= */
+
+  :root {
+    --border: #333;
+    --light-border: #ccc;
+    --header-bg: #f0f0f0;
+    --text: #1a1a1a;
+    --muted: #555;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--text);
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 1in 0.75in;
+    line-height: 1.4;
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 26px;
+    margin: 0 0 10px 0;
+    border-bottom: 3px solid var(--border);
+    padding-bottom: 8px;
+  }
+
+  .meta-line {
+    margin: 4px 0;
+    font-size: 14px;
+  }
+
+  .meta-line strong {
+    font-weight: bold;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--light-border);
+    margin: 18px 0;
+  }
+
+  h2 {
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin: 0 0 10px 0;
+    padding-bottom: 4px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  h3 {
+    font-size: 14px;
+    margin: 14px 0 6px 0;
+    font-style: italic;
+  }
+
+  section {
+    margin-bottom: 22px;
+  }
+
+  /* Tables: ingredients, method, checklist */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 4px;
+  }
+
+  caption {
+    caption-side: top;
+    text-align: left;
+    font-weight: bold;
+    margin-bottom: 6px;
+  }
+
+  th, td {
+    border: 1px solid var(--border);
+    padding: 6px 8px;
+    text-align: left;
+    vertical-align: top;
+    font-size: 13.5px;
+  }
+
+  th {
+    background-color: var(--header-bg);
+    font-weight: bold;
+  }
+
+  /* Keep each table row intact across a page break when printing */
+  tr {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Method table: narrow step-number column */
+  table.method col.step-col { width: 48px; }
+  table.method td:first-child,
+  table.method th:first-child {
+    text-align: center;
+    font-weight: bold;
+  }
+
+  /* Checklist table: narrow checkbox column */
+  table.checklist col.check-col { width: 36px; }
+  table.checklist td:first-child {
+    text-align: center;
+    font-size: 16px;
+  }
+
+  .notes-block p {
+    margin: 0 0 8px 0;
+  }
+
+  .placeholder {
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* =========================
+     PRINT-SPECIFIC RULES
+     ========================= */
+  @media print {
+    @page {
+      size: letter;
+      margin: 0.6in;
+    }
+
+    body {
+      padding: 0;
+      max-width: 100%;
+      font-size: 12.5px;
+    }
+
+    h1 { font-size: 22px; }
+    h2 { font-size: 14px; }
+
+    section {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* Allow long sections (many ingredients/steps) to break
+       between rows rather than forcing the whole section onto
+       one page — only individual rows stay intact. */
+    section.allow-break {
+      page-break-inside: auto;
+      break-inside: auto;
+    }
+
+    table { page-break-inside: auto; }
+    thead { display: table-header-group; } /* repeat table header on each printed page */
+    tr { page-break-inside: avoid; break-inside: avoid; }
+
+    a { color: inherit; text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ===================== TITLE & HEADER ===================== -->
+  <h1>[Recipe Name]</h1>
+
+  <p class="meta-line">
+    <strong>Category:</strong> [e.g., Soup, Entrée, Dessert, Side]
+    &nbsp;&nbsp;|&nbsp;&nbsp;
+    <strong>Portion Size:</strong> [e.g., 1 cup]
+  </p>
+  <p class="meta-line">
+    <strong>Yield:</strong> [e.g., 8 servings]
+    &nbsp;&nbsp;|&nbsp;&nbsp;
+    <strong>Allergens:</strong> [e.g., Dairy, Egg, Gluten, Tree Nut, Soy, Sesame — or "None identified"]
+  </p>
+
+  <hr class="divider">
+
+  <!-- ===================== INGREDIENTS ===================== -->
+  <section class="allow-break">
+    <h2>Ingredients</h2>
+
+    <!-- If a recipe has sub-components (e.g., "Dressing", "Filling"),
+         duplicate this <table> block under an <h3> sub-heading for
+         each component. Otherwise, a single table is fine. -->
+
+    <table>
+      <colgroup>
+        <col style="width:40%">
+        <col style="width:25%">
+        <col style="width:35%">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Ingredient</th>
+          <th>Weight/Measure</th>
+          <th>Prep Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Duplicate this row for each ingredient; add as many as needed -->
+        <tr>
+          <td>[Ingredient]</td>
+          <td>[Amount]</td>
+          <td>[Prep note, or leave blank]</td>
+        </tr>
+        <tr>
+          <td>[Ingredient]</td>
+          <td>[Amount]</td>
+          <td>[Prep note, or leave blank]</td>
+        </tr>
+        <tr>
+          <td>[Ingredient]</td>
+          <td>[Amount]</td>
+          <td>[Prep note, or leave blank]</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ===================== METHOD ===================== -->
+  <section class="allow-break">
+    <h2>Method</h2>
+
+    <table class="method">
+      <colgroup>
+        <col class="step-col">
+        <col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Step</th>
+          <th>Instructions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Duplicate this row for each step; add as many as needed -->
+        <tr>
+          <td>1</td>
+          <td>[Instruction for step 1]</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>[Instruction for step 2]</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>[Instruction for step 3]</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ===================== HACCP & SERVICE CHECKLIST ===================== -->
+  <section class="allow-break">
+    <h2>HACCP &amp; Service Checklist</h2>
+
+    <p class="meta-line">
+      <strong>HACCP Process:</strong>
+      [Process 1: No Cook Step / Process 2: Same-Day Service / Process 3: Complex Preparation]
+    </p>
+
+    <table class="checklist">
+      <colgroup>
+        <col class="check-col">
+        <col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>&#10003;</th>
+          <th>Critical Control Point</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Duplicate this row for each control point; add as many as needed -->
+        <tr>
+          <td>&#9744;</td>
+          <td>Keep [item] refrigerated at 41°F or below until service</td>
+        </tr>
+        <tr>
+          <td>&#9744;</td>
+          <td>If holding at room temperature, do not exceed 2 hours</td>
+        </tr>
+        <tr>
+          <td>&#9744;</td>
+          <td>Use clean utensils to avoid cross-contamination</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ===================== NOTES ===================== -->
+  <section>
+    <h2>Notes</h2>
+    <div class="notes-block">
+      <p class="placeholder">(Flavor variations, substitutions, allergen call-outs, or other adjustments go here.)</p>
+    </div>
+  </section>
+
+</body>
+</html>
