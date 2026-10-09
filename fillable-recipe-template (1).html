@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fillable Standardized Recipe Template</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root {
+    --border: #333;
+    --light-border: #ccc;
+    --header-bg: #f0f0f0;
+    --text: #1a1a1a;
+    --muted: #555;
+    --accent: #2b5d34;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--text);
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 1in 0.75in 2in 0.75in;
+    line-height: 1.4;
+    font-size: 14px;
+    background: #fafafa;
+  }
+
+  /* ---------- Toolbar (screen only) ---------- */
+  .toolbar {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    border: 1px solid var(--light-border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    z-index: 10;
+  }
+
+  .toolbar button {
+    font-family: inherit;
+    font-size: 13px;
+    padding: 7px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: #fff;
+    cursor: pointer;
+  }
+
+  .toolbar button.primary {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  .toolbar button:hover { opacity: 0.85; }
+
+  .toolbar .hint {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: Arial, sans-serif;
+  }
+
+  /* ---------- Title & header fields ---------- */
+  h1 {
+    font-size: 26px;
+    margin: 0 0 10px 0;
+    border-bottom: 3px solid var(--border);
+    padding-bottom: 8px;
+  }
+
+  input, textarea, select {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 14px;
+    border: 1px solid var(--light-border);
+    border-radius: 3px;
+    padding: 4px 6px;
+    background: #fffef8;
+    color: var(--text);
+  }
+
+  input:focus, textarea:focus {
+    outline: 2px solid var(--accent);
+    background: #fff;
+  }
+
+  .title-input {
+    width: 100%;
+    font-size: 24px;
+    font-weight: bold;
+    border: none;
+    border-bottom: 3px solid var(--border);
+    border-radius: 0;
+    padding: 4px 2px 8px 2px;
+    margin-bottom: 10px;
+    background: transparent;
+  }
+
+  .meta-line {
+    margin: 6px 0;
+    font-size: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    align-items: baseline;
+  }
+
+  .meta-field {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .meta-field strong { white-space: nowrap; }
+  .meta-field input { min-width: 160px; flex: 1; }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--light-border);
+    margin: 18px 0;
+  }
+
+  h2 {
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin: 0 0 10px 0;
+    padding-bottom: 4px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  h3 input {
+    font-size: 14px;
+    font-style: italic;
+    width: 260px;
+  }
+
+  section { margin-bottom: 22px; }
+
+  /* ---------- Tables ---------- */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 8px;
+  }
+
+  th, td {
+    border: 1px solid var(--border);
+    padding: 5px 6px;
+    text-align: left;
+    vertical-align: top;
+    font-size: 13.5px;
+  }
+
+  th { background-color: var(--header-bg); font-weight: bold; }
+
+  table input, table textarea {
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 2px;
+    resize: vertical;
+  }
+
+  table input:focus, table textarea:focus {
+    outline: 1px solid var(--accent);
+    background: #fff;
+  }
+
+  tr { page-break-inside: avoid; break-inside: avoid; }
+
+  table.method col.step-col { width: 48px; }
+  table.method td:first-child { text-align: center; font-weight: bold; }
+
+  table.checklist col.check-col { width: 40px; }
+  table.checklist td:first-child { text-align: center; }
+  table.checklist input[type="checkbox"] { width: 18px; height: 18px; }
+
+  .row-actions { width: 34px; text-align: center; }
+  .row-actions button {
+    border: none;
+    background: #d9534f;
+    color: #fff;
+    border-radius: 3px;
+    width: 22px;
+    height: 22px;
+    line-height: 1;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  .add-row-btn {
+    font-family: Arial, sans-serif;
+    font-size: 12.5px;
+    padding: 5px 10px;
+    border: 1px dashed var(--border);
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 4px;
+  }
+  .add-row-btn:hover { background: var(--header-bg); }
+
+  .notes-block textarea {
+    width: 100%;
+    min-height: 80px;
+    font-size: 14px;
+  }
+
+  /* =========================
+     PRINT-SPECIFIC RULES
+     ========================= */
+  @media print {
+    @page { size: letter; margin: 0.6in; }
+
+    body { padding: 0; max-width: 100%; background: #fff; font-size: 12.5px; }
+
+    .toolbar, .add-row-btn, .row-actions { display: none !important; }
+
+    h1 { font-size: 22px; }
+    h2 { font-size: 14px; }
+
+    /* Convert inputs/textareas to plain printed text */
+    input, textarea, select {
+      border: none !important;
+      background: transparent !important;
+      outline: none !important;
+      padding: 2px 0 !important;
+      resize: none;
+      color: #000;
+    }
+
+    .title-input { border-bottom: 2px solid #000 !important; }
+
+    table input, table textarea { padding: 2px !important; }
+
+    table.checklist input[type="checkbox"] {
+      width: 14px; height: 14px;
+    }
+
+    table { page-break-inside: auto; }
+    thead { display: table-header-group; }
+    tr { page-break-inside: avoid; break-inside: avoid; }
+
+    textarea {
+      overflow: visible;
+      height: auto;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ===================== TOOLBAR (not printed) ===================== -->
+  <div class="toolbar">
+    <button class="primary" onclick="window.print()">🖨️ Print / Save as PDF</button>
+    <button onclick="addIngredientRow()">+ Ingredient Row</button>
+    <button onclick="addMethodRow()">+ Method Step</button>
+    <button onclick="addChecklistRow()">+ Checklist Item</button>
+    <span class="hint">Fill in the fields below, then click Print. Use "Save as PDF" as the destination in your browser's print dialog.</span>
+  </div>
+
+  <!-- ===================== TITLE & HEADER ===================== -->
+  <input type="text" class="title-input" value="[Recipe Name]" aria-label="Recipe Name">
+
+  <div class="meta-line">
+    <span class="meta-field"><strong>Category:</strong> <input type="text" placeholder="e.g., Soup, Entrée, Dessert"></span>
+    <span class="meta-field"><strong>Portion Size:</strong> <input type="text" placeholder="e.g., 1 cup"></span>
+  </div>
+  <div class="meta-line">
+    <span class="meta-field"><strong>Yield:</strong> <input type="text" placeholder="e.g., 8 servings"></span>
+    <span class="meta-field"><strong>Allergens:</strong> <input type="text" placeholder="e.g., Dairy, Egg, Gluten, or None identified"></span>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ===================== INGREDIENTS ===================== -->
+  <section>
+    <h2>Ingredients</h2>
+
+    <table id="ingredientsTable">
+      <colgroup>
+        <col style="width:36%">
+        <col style="width:22%">
+        <col style="width:34%">
+        <col style="width:8%">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Ingredient</th>
+          <th>Weight/Measure</th>
+          <th>Prep Notes</th>
+          <th class="row-actions"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="text"></td>
+          <td><input type="text"></td>
+          <td><input type="text"></td>
+          <td class="row-actions"><button onclick="removeRow(this)">✕</button></td>
+        </tr>
+        <tr>
+          <td><input type="text"></td>
+          <td><input type="text"></td>
+          <td><input type="text"></td>
+          <td class="row-actions"><button onclick="removeRow(this)">✕</button></td>
+        </tr>
+        <tr>
+          <td><input type="text"></td>
+          <td><input type="text"></td>
+          <td><input type="text"></td>
+          <td class="row-actions"><button onclick="removeRow(this)">✕</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="add-row-btn" onclick="addIngredientRow()">+ Add ingredient row</button>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ===================== METHOD ===================== -->
+  <section>
+    <h2>Method</h2>
+
+    <table class="method" id="methodTable">
+      <colgroup>
+        <col class="step-col">
+        <col>
+        <col style="width:8%">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Step</th>
+          <th>Instructions</th>
+          <th class="row-actions"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="step-num">1</td>
+          <td><textarea rows="2"></textarea></td>
+          <td class="row-actions"><button onclick="removeRow(this)">✕</button></td>
+        </tr>
+        <tr>
+          <td class="step-num">2</td>
+          <td><textarea rows="2"></textarea></td>
+          <td class="row-actions"><button onclick="removeRow(this)">✕</button></td>
+        </tr>
+        <tr>
+          <td class="step-num">3</td>
+          <td><textarea rows="2"></textarea></td>
+          <td class="row-actions"><button onclick="removeRow(this)">✕</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="add-row-btn" onclick="addMethodRow()">+ Add method step</button>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ===================== HACCP & SERVICE CHECKLIST ===================== -->
+  <section>
+    <h2>HACCP &amp; Service Checklist</h2>
+
+    <div class="meta-line">
+      <span class="meta-field" style="flex:1;"><strong>HACCP Process:</strong>
+        <input type="text" style="flex:1; min-width:300px;" placeholder="Process 1: No Cook Step / Process 2: Same-Day Service / Process 3: Complex Preparation">
+      </span>
+    </div>
+
+    <table class="checklist" id="checklistTable">
+      <colgroup>
+        <col class="check-col">
+        <col>
+        <col style="width:8%">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>&#10003;</th>
+          <th>Critical Control Point</th>
+          <th class="row-actions"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="checkbox"></td>
+          <td><input type="text" value="Keep refrigerated at 41°F or below until service"></td>
+          <td class="row-actions"><button onclick="removeRow(this)">✕</button></td>
+        </tr>
+        <tr>
+          <td><input type="checkbox"></td>
+          <td><input type="text" value="If holding at room temperature, do not exceed 2 hours"></td>
+          <td class="row-actions"><button onclick="removeRow(this)">✕</button></td>
+        </tr>
+        <tr>
+          <td><input type="checkbox"></td>
+          <td><input type="text" value="Use clean utensils to avoid cross-contamination"></td>
+          <td class="row-actions"><button onclick="removeRow(this)">✕</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="add-row-btn" onclick="addChecklistRow()">+ Add checklist item</button>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ===================== NOTES ===================== -->
+  <section class="notes-block">
+    <h2>Notes</h2>
+    <textarea placeholder="Flavor variations, substitutions, allergen call-outs, or other adjustments..."></textarea>
+  </section>
+
+  <script>
+    function removeRow(btn) {
+      const row = btn.closest('tr');
+      const tbody = row.parentElement;
+      if (tbody.rows.length > 1) {
+        row.remove();
+        renumberMethodSteps();
+      } else {
+        // clear instead of removing the last remaining row
+        row.querySelectorAll('input, textarea').forEach(el => {
+          if (el.type === 'checkbox') el.checked = false;
+          else el.value = '';
+        });
+      }
+    }
+
+    function addIngredientRow() {
+      const tbody = document.querySelector('#ingredientsTable tbody');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td class="row-actions"><button onclick="removeRow(this)">✕</button></td>`;
+      tbody.appendChild(tr);
+    }
+
+    function addMethodRow() {
+      const tbody = document.querySelector('#methodTable tbody');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="step-num"></td>
+        <td><textarea rows="2"></textarea></td>
+        <td class="row-actions"><button onclick="removeRow(this)">✕</button></td>`;
+      tbody.appendChild(tr);
+      renumberMethodSteps();
+    }
+
+    function renumberMethodSteps() {
+      document.querySelectorAll('#methodTable tbody tr').forEach((tr, i) => {
+        tr.querySelector('.step-num').textContent = i + 1;
+      });
+    }
+
+    function addChecklistRow() {
+      const tbody = document.querySelector('#checklistTable tbody');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><input type="checkbox"></td>
+        <td><input type="text"></td>
+        <td class="row-actions"><button onclick="removeRow(this)">✕</button></td>`;
+      tbody.appendChild(tr);
+    }
+  </script>
+
+</body>
+</html>
